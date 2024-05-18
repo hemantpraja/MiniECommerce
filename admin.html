@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pannel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="font-weight: 900; font-size: 2rem">Mini E-Commerce</a>
+            <div class="collapse navbar-collapse d-flex" id="navbarNav" style="justify-content: space-between;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a onclick="openProductWindow()" id="Products-button" class="nav-link" href="#" style="font-weight: 600; font-size: 1.2rem;">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="openOrdersWindow()" class="nav-link" href="#" style="font-weight: 600; font-size: 1.2rem;">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="openUsersWindow()" class="nav-link" aria-current="page" href="#" style="font-weight: 600; font-size: 1.2rem;">Active users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="openBlockedUsersWindow()" class="nav-link" aria-current="page" href="#" style="font-weight: 600; font-size: 1.2rem;">Blocked users</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav d-flex">
+                    <li class="nav-item m-1">
+                        <button onclick="changeAdminPass()" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminsigninoffcanvasTop" aria-controls="offcanvasTop">Change Password</button>
+                    </li>
+                    <li class="nav-item m-1">
+                        <button onclick="logoutAdmin()" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminsigninoffcanvasTop" aria-controls="offcanvasTop">Logout  <i class="fa-solid fa-right-from-bracket"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="middle-container">
+        <div id="middle-1">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="alert alert-success text-center">
+                            <b>Products</b>
+                        </h1>
+                    </div>
+        
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form">
+                                    <label for="">Product Id</label>
+                                    <input type="text" placeholder="Enter Product Id" class="form-control" name="name" id="product-id" required>
+                                    <span id="pIdWarning"></span>
+                                    <br>
+                                    <label for="">Name</label>
+                                    <input type="text" placeholder="Enter Product Name" class="form-control" name="name" id="product-name" required>
+                                    <span id="pNameWarning"></span>
+                                    <br>
+                                    <label for="">Quantity</label>
+                                    <input type="number" placeholder="Enter Product Quantity" min="1" class="form-control" name="quantity" id="product-quantity" required>
+                                    <span id="pQuantityWarning"></span>
+                                    <br>
+                                    <label for="">Price</label>
+                                    <input type="number" min="1"  placeholder="$ Price" class="form-control" name="age" id="product-price" required>
+                                    <span id="pPriceWarning"></span>
+                                    <br>
+                                    <label for="">Details</label>
+                                    <textarea name="address" placeholder="Product Details" id="product-details" cols="30" rows="5" class="form-control"></textarea>
+                                    <br>
+                                    <p id="product-warning"></p>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="addProduct()">Add Product</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="saveProduct()">Save Changes</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="clearProductData()">Reset</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Id</th>
+                                                <th>Product Name</th>
+                                                <th>Remaining Qualtity</th>
+                                                <th>Product Price</th>
+                                                <th>Product Details</th>
+                                                <th>Edit</th>
+                                                <th>Remove</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="product-table">
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="middle-2">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="alert alert-success text-center">
+                            <b>Users</b>
+                        </h1>
+                    </div>
+                    <script src="https://kit.fontawesome.com/34ce411f5e.js" crossorigin="anonymous"></script>
+    
+                    
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Name</th>
+                                                <th>Diactivate</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="user-table">
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="middle-5">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="alert alert-success text-center">
+                            <b>Product Details</b>
+                        </h1>
+                    </div>
+        
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form">
+                                    <label for="usrId">User Id</label>
+                                    <input type="text" placeholder="Enter User id" class="form-control" name="usrId" id="usr-id" required>
+                                    <br>
+                                    <label for="ordrId">Order Id</label>
+                                    <input type="text" placeholder="Enter Order id" class="form-control" name="ordrId" id="ordr-id" required>
+                                    <br>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="getUserOrderDetails()">Get Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th><b>Date : </b></th>
+                                                <th id="date">.........</th>
+                                            </tr>
+                                            <tr>
+                                                <th><b>Address : </b></th>
+                                                <th id="address">.........</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Product Id</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="order-details-table">
+                
+                                        </tbody>
+
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="3"><b>Total Product Price</b> </td>
+                                                <td id="total-price">.....</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"><b>Total GST</b> </td>
+                                                <td id="total-gst-price">.....</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3"><b>Total Amount</b> </td>
+                                                <td id="total-amount">.....</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="middle-3">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="alert alert-success text-center">
+                            <b>Orders</b>
+                        </h1>
+                    </div>
+        
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>User Id</th>
+                                                <th>Order Id</th>
+                                                <th>Order Date</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="usr-ordr-table">
+                
+                                        </tbody>
+                                        <tbody>
+                                            <tr> 
+                                                <td colspan="3"><b>Total Amount</b> </td>
+                                                <td id="total-usr-ordr-amount">.....</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="middle-4">
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="alert alert-danger text-center">
+                            <b>Password Change Form</b>
+                        </h1>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="form">
+                                    <label for="">Old Password</label>
+                                    <input type="password" placeholder="Enter Your Old Password" class="form-control" id="oldPass" required>
+                                    <p id="oldPassWarning"></p>
+                                    <br>
+                                    <label for="">New Password</label>
+                                    <input type="password" placeholder="Enter New Password" class="form-control" id="newPass" required>
+                                    <br>
+                                    <p id="passWarning"></p>
+                                    <label for="">Confirm Password</label>
+                                    <input type="password" placeholder="Confirm Password" class="form-control" id="cnfPass" required>
+                                    <br>
+                                    
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="changeAdminPass()">Save</button>
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="clearPassData()">Reset</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="middle-6">
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="alert alert-success text-center">
+                        <b>Users</b>
+                    </h1>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>User Id</th>
+                                            <th>Name</th>
+                                            <th>Activate</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="blocked-user-table">
+            
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/34ce411f5e.js" crossorigin="anonymous"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
